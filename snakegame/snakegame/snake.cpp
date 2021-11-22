@@ -1,4 +1,4 @@
-﻿#include "snakegame.h"
+#include "snakegame.h"
 const int UP = 0;
 const int DOWN = 1;
 const int RIGHT = 2;
@@ -143,7 +143,10 @@ void snakeGame() {
 			removeOldSnake(snake);
 			gotoxy(50, 13);
 			cout << "Game Over!";
-			break;
+			Sleep(300);
+			gotoxy(50, 13);
+			cout << "          ";
+			menu();
 		}
 		else {
 			removeOldSnake(snake);
@@ -181,7 +184,7 @@ void snakeGame() {
 				break;
 			}
 			setSnake(snake, x, y);
-			Sleep(200);
+			Sleep(100);
 			if (snake.x.at(0) == food.x && snake.y.at(0) == food.y) {
 				snake.x.insert(snake.x.begin(), food.x);
 				snake.y.insert(snake.y.begin(), food.y);
@@ -196,5 +199,55 @@ void snakeGame() {
 		}
 	}
 	char c = _getch();
+}
+void drawButton(int x, int y) {
+	gotoxy(x, y);
+	cout << ">>>";
+}
+void removeButton(int x, int y) {
+	gotoxy(x, y);
+	cout << "   ";
+}
+void menu() {
+	setcursor(0, 0);
+	drawGameWall();
+	drawButton(44,12);
+	int buttonPos = UP;
+	while (1) {
+		gotoxy(49, 12);
+		cout << setw(8) << "Start";
+		gotoxy(48, 14);
+		cout << setw(8) << "Quit";
+		if (_kbhit()) {
+			char c = _getch();
+			if (c == -32) {
+				c = _getch();
+				if (c == 72) {
+					removeButton(44, 14);
+					drawButton(44, 12);
+					buttonPos = UP;
+				}
+				else if (c == 80) {
+					removeButton(44, 12);
+					drawButton(44, 14);
+					buttonPos = DOWN;
+				}
+				c = _getch();
+				if (c == 13 && buttonPos == UP) {
+					gotoxy(49, 12);
+					cout << setw(8) << "     ";
+					gotoxy(48, 14);
+					cout << setw(8) << "    ";
+					removeButton(44, 12);
+					removeButton(44, 14);
+					snakeGame();
+				}
+				else if (c == 13 && buttonPos == DOWN) {
+					break;
+				}
+			}
+		}
+	}
+	
 }
 
