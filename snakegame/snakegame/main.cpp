@@ -1,6 +1,7 @@
 #include "snakegame.h"
 int main()
 {
-    snakeGame();
+    menu();
+    char c = _getch();
     return 0;
 }
