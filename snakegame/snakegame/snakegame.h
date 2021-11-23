@@ -7,6 +7,7 @@
 #include <string>
 #include <stdlib.h>    
 #include <time.h>
+#include <iomanip>
 using namespace std;
 struct SNAKE {
 	vector<int>x;
@@ -31,5 +32,8 @@ bool checkEatSnakeTail(SNAKE, int, int);
 void createAndDrawFood(FOOD&);
 void drawScore();
 void snakeGame();
+void menu();
+void drawButton(int, int);
+void removeButton(int, int);
 #endif // !SNAKEGAME_H
 

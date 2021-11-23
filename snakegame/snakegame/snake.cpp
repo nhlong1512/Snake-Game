@@ -1,4 +1,4 @@
-#include "snakegame.h"
+﻿#include "snakegame.h"
 const int UP = 0;
 const int DOWN = 1;
 const int RIGHT = 2;
