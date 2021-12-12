@@ -58,6 +58,33 @@ void drawGameWall() {
 //khỏi tạo rắn
 void createSnake(SNAKE& snake) {
 	snake.length = 7;
+void setcolor(unsigned short color) {                                                   //set the colour
+	HANDLE hcon = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hcon, color);
+}
+//vẽ tường cho game
+void drawGameWall() {
+	for (int x = 11, y = 1; x < 100; x += 2) {
+		gotoxy(x, y);
+		cout << "v";
+	}
+	for (int x = 100, y = 2; y < 27; y += 1) {
+		gotoxy(x, y);
+		cout << "<";
+	}
+	for (int x = 99, y = 27; x >= 11; x -= 2) {
+		gotoxy(x, y);
+		cout << "^";
+	}
+	for (int x = 10, y = 26; y > 1; y -= 1) {
+		gotoxy(x, y);
+		cout << ">";
+	}
+
+}
+//khỏi tạo rắn
+void createSnake(SNAKE& snake) {
+	snake.length = 4;
 	int x = 40, y = 11;
 	for (int i = 0; i < snake.length; i++) {
 		snake.x.push_back(x);
@@ -95,6 +122,9 @@ bool checkTouchWall(int x0, int y0) {
 	if ((x0 >= 2 && x0 <= 88) && (y0 == 1 || y0 == 27))
 		return true;
 	if ((y0 >= 1 && y0 <= 27) && (x0 == 2 || x0 == 88))
+	if ((x0 >= 10 && x0 <= 100) && (y0 == 1 || y0 == 27))
+		return true;
+	if ((y0 >= 1 && y0 <= 27) && (x0 == 10 || x0 == 100))
 		return true;
 	return false;
 }
@@ -110,6 +140,10 @@ bool checkEatSnakeTail(SNAKE snake, int x, int y) {
 void createAndDrawFood(FOOD& food) {
 	food.x = random(2, 88);
 	food.y = random(2, 26);
+	int x = random(11, 99);
+	int y = random(2, 26);
+	food.x = x;
+	food.y = y;
 	gotoxy(food.x, food.y);
 	cout << "$";
 }
@@ -122,6 +156,10 @@ void removeFood(FOOD food) {
 void drawScore() {
 	TextColor(14);
 	gotoxy(1, 0);
+
+//vẽ điểm người chơi
+void drawScore() {
+	gotoxy(10, 0);
 	cout << "Score: " << score;
 }
 //hàm game rắn
@@ -147,6 +185,13 @@ void snakeGame() {
 		{
 			score = 0;
 			gotoxy(40, 0);
+	setcursor(0, 0);
+	while (true) {
+		gotoxy(50, 0);
+		cout << "SNAKE GAME";
+		if (checkTouchWall(snake.x.at(0), snake.y.at(0)) == true || checkEatSnakeTail(snake, x, y) == true)
+		{
+			gotoxy(50, 0);
 			cout << "SNAKE GAME";
 			removeOldSnake(snake);
 			removeFood(food);
@@ -166,6 +211,17 @@ void snakeGame() {
 			drawScore();
 			gotoxy(40, 13);
 			cout <<"          ";
+			gotoxy(50, 13);
+			cout << "Game Over!";
+			for (int i = 10; i >= 0; i--) {
+				gotoxy(45, 24);
+				cout << "Restart after " << i << "s!";
+				Sleep(700);
+				gotoxy(45, 24);
+				cout << "                  ";
+			}
+			gotoxy(50, 13);
+			cout << "          ";
 			break;
 		}
 		else {
@@ -188,6 +244,15 @@ void snakeGame() {
 					direction = RIGHT;
 					timeDelay = 100;
 				}
+				else if (c == 's' && (direction != DOWN && direction != UP)) {
+					direction = DOWN;
+				}
+				else if (c == 'a' && (direction != RIGHT && direction != LEFT)) {
+					direction = LEFT;
+				}
+				else if (c == 'd' && (direction != LEFT && direction != RIGHT)) {
+						direction = RIGHT;
+				}
 			}
 			switch (direction)
 			{
@@ -206,6 +271,7 @@ void snakeGame() {
 			}
 			setSnake(snake, x, y);
 			Sleep(timeDelay);
+			Sleep(100);
 			if (snake.x.at(0) == food.x && snake.y.at(0) == food.y) {
 				snake.x.insert(snake.x.begin(), food.x);
 				snake.y.insert(snake.y.begin(), food.y);
@@ -234,6 +300,14 @@ void snakeGame() {
 
 }
 //vẽ nút mũi tên phải
+		}
+
+	}
+	drawStarButton(53, 13);
+	drawQuitButton(53, 15);
+	drawRightButton(45, 13);
+	drawLeftButton(62, 13);
+}
 void drawRightButton(int x, int y) {
 	gotoxy(x, y);
 	cout << ">>>";
@@ -249,21 +323,25 @@ void drawLeftButton(int x, int y) {
 	cout << "<<<";
 }
 //vẽ nút quit
+
 void drawQuitButton(int x, int y) {
 	gotoxy(x, y);
 	cout << "Quit";
 }
 //xóa nút start
+
 void removeStartButton(int x, int y) {
 	gotoxy(x, y);
 	cout << "     ";
 }
 //vẽ nút start
+
 void drawStarButton(int x, int y) {
 	gotoxy(x, y);
 	cout << "Start";
 }
 //xóa nút quit
+
 void removeQuitButton(int x, int y) {
 	gotoxy(x, y);
 	cout << "     ";
@@ -297,6 +375,29 @@ void menu() {
 				drawRightButton(35, 12);
 				removeButton(53, 15);
 				drawLeftButton(53, 12);
+void menu() {
+	int pos = UP;
+	drawGameWall();
+	drawStarButton(53, 13);
+	drawQuitButton(53, 15);
+	drawRightButton(45, 13);
+	drawLeftButton(62, 13);
+	while (1) {
+		
+		if (_kbhit) {
+			char c = _getch();
+			if (c == 's' && c != 'w') {
+				removeButton(45, 13);
+				drawRightButton(45, 15);
+				removeButton(62, 13);
+				drawLeftButton(62, 15);
+				pos = DOWN;
+			}
+			else if (c == 'w' && c != 's') {
+				removeButton(45, 15);
+				drawRightButton(45, 13);
+				removeButton(62, 15);
+				drawLeftButton(62, 13);
 				pos = UP;
 			}
 			else if (c == 13) {
@@ -308,6 +409,10 @@ void menu() {
 					system("cls");
 					drawGameWall();
 					gotoxy(40, 13);
+				else if(pos == DOWN) {
+					system("cls");
+					drawGameWall();
+					gotoxy(50, 13);
 					cout << "Good Bye!";
 					break;
 				}
@@ -324,4 +429,6 @@ void menuTutorial() {
 	cout << "Press enter to start!";
 	gotoxy(32, 25);
 	cout << "Use keys (W,S,A,D) to move!";
+}
+	}
 }
