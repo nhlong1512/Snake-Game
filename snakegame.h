@@ -1,3 +1,5 @@
+
+﻿#ifndef SNAKEGAME_H
 #ifndef SNAKEGAME_H
 #define SNAKEGAME_H
 #include <iostream>
@@ -21,6 +23,8 @@ struct FOOD {
 int random(int, int);
 void setcursor(bool, DWORD);
 void gotoxy(int, int);
+
+
 void setcolor(unsigned short);
 void createSnake(SNAKE&);
 void drawSnake(SNAKE);
@@ -40,5 +44,9 @@ void drawQuitButton(int, int);
 void removeButton(int, int);
 void removeStartButton(int, int);
 void removeQuitButton(int, int);
+
+void menuTutorial();
+void TextColor(int color);
+
 
 #endif // !SNAKEGAME_H
