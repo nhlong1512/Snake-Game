@@ -1,4 +1,7 @@
 # Snake-Game
+------------
+![Image of Snake Game](Img1.png "Play Micro Snake!")
+![Image of Snake Game](Img2.png "Play Micro Snake!")
 
 ## About
 ------------
