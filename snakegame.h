@@ -30,7 +30,7 @@ void drawGameWall();
 void drawScore();
 void drawRightButton(int, int);
 void drawLeftButton(int, int);
-void drawStarButton(int, int);
+void drawStartButton(int, int);
 void drawQuitButton(int, int);
 void snakeGame();
 void menu();
