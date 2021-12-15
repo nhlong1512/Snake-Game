@@ -20,33 +20,35 @@ struct FOOD {
 	int x;
 	int y;
 };
-int random(int, int);
-void setcursor(bool, DWORD);
-void gotoxy(int, int);
-
-
-void setcolor(unsigned short);
+//Nhóm hàm tạo
+void createAndDrawFood(FOOD&);
 void createSnake(SNAKE&);
+
+//Nhóm hàm vẽ
 void drawSnake(SNAKE);
 void drawGameWall();
-void removeOldSnake(SNAKE);
-void setSnake(SNAKE&, int, int);
-bool checkTouchWall(int, int);
-bool checkEatSnakeTail(SNAKE, int, int);
-void createAndDrawFood(FOOD&);
 void drawScore();
-void snakeGame();
-void menu();
 void drawRightButton(int, int);
 void drawLeftButton(int, int);
-void drawStarButton(int, int);
+void drawStartButton(int, int);
 void drawQuitButton(int, int);
+void snakeGame();
+void menu();
+void menuTutorial();
+
+//Nhóm hàm xoá
 void removeButton(int, int);
 void removeStartButton(int, int);
 void removeQuitButton(int, int);
+void removeOldSnake(SNAKE);
 
-void menuTutorial();
+//Nhóm hàm bổ trợ
+void setSnake(SNAKE&, int, int);
+bool checkTouchWall(int, int);
+bool checkEatSnakeTail(SNAKE, int, int);
 void TextColor(int color);
-
+int random(int, int);
+void setcursor(bool, DWORD);
+void gotoxy(int, int);
 
 #endif // !SNAKEGAME_H
