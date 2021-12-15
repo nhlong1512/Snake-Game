@@ -55,3 +55,4 @@ To move the Snake:
 | a               | Left            |
 | d               | Right           |
 | w               | Up              |
+| s               | Down            |  
